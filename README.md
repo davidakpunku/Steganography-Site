@@ -1,78 +1,60 @@
 # Steganography Site
 
-A full-stack assignment project for hiding a secret message or secret file inside another file using bit-level steganography, then publishing the modified carrier on a public site.
+# Name:** David Akpunku
+# Student ID: 1002126466
+# Azure Live Site:** https://steganography-site-david-gceveae9f0dthkem.centralus-01.azurewebsites.net
 
-## Features
-- User registration and login
-- Public gallery of stego posts
-- Authenticated upload/publish flow
-- Embed **secret text** or a **secret file** into any carrier file
-- Reversible extraction flow using the same **S**, **L**, and **C** values
-- Image preview for public image posts
+---
 
-## Assignment mapping
-- **P** = carrier file uploaded by the user
-- **M** = secret text or secret file
-- **S** = starting bit offset
-- **L** = periodic interval for replacement
-- **C** = mode controlling how `L` changes over time
+### How to Use the Website
 
-Supported modes in this project:
-- `fixed` → constant `L`
-- `cycle` → cycles through `L`, `2L`, and `3L+4`
-- `increment` → `L`, `L+1`, `L+2`, ...
+### 1. Public Gallery (No login required)
+   - Visit the homepage to see all publicly posted steganography images.
+   - Click on any post to view the image and its parameters (S, L, Mode).
 
-## How the embedding works
-1. Read the carrier file as bytes.
-2. Read the secret text/file as bytes.
-3. Build a payload header containing:
-   - magic bytes (`STEG`)
-   - secret length
-   - secret filename length
-   - secret filename
-4. Convert both carrier and payload into bit arrays.
-5. Starting at bit `S`, replace every `L`-controlled bit with payload bits.
-6. Save the modified carrier and publish it.
+### 2. Register / Login (Required for uploading)
+   - Click Register to create a new account.
+   - Or click Login if you already have an account.
 
-## How extraction works
-1. Read the stego file.
-2. Use the same `S`, `L`, and `C` values.
-3. Reconstruct the embedded header first.
-4. Determine the hidden file length from the header.
-5. Extract the full payload and restore the original secret.
+### 3. Upload & Hide a Message
+   - After logging in, go to Upload.
+   - Choose a carrier image (PNG recommended).
+   - Enter a secret text message or upload a secret file.
+   - Set the parameters:
+     - S = Starting bit offset (e.g., 100–500)
+     - L = Interval / periodicity (e.g., 4 or 8)
+     - Mode = `fixed`, `cycle`, or `increment`
+   - Click Embed and Publish.
+   - The stego image will be posted publicly.
 
-## How someone could find M or P given only L
-Knowing only `L` is usually **not enough** to recover the hidden message. An attacker would still need:
-- the correct start bit `S`
-- the correct mode `C`
-- a way to know where the payload begins and ends
-- some method to distinguish real payload bits from normal file noise
+### 4. Extract Hidden Message
+   - Login → go to Extract.
+   - Upload any posted stego image.
+   - Enter the exact same S, L, and Mode used during embedding.
+   - Click Extract to recover the original secret message/file.
 
-With only `L`, the attacker would likely need to try many possible values of `S`, different modes, and many possible payload lengths. That makes recovery much harder, though not impossible if the attacker already knows the file format or has the original carrier.
+---
 
-## Run locally
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
+### Discussion Question: How someone could find M or P, given (only) L
 
-Then open:
-- `http://127.0.0.1:8000`
+Knowing only the periodicity `L` is not sufficient to reliably recover the hidden message M or the original carrier P.
 
-## Demo flow
-1. Register a user.
-2. Log in.
-3. Go to **Upload**.
-4. Upload a carrier file.
-5. Enter secret text or choose a secret file.
-6. Pick `S`, `L`, and `mode`.
-7. Publish the stego file.
-8. View the public post.
-9. Go to **Extract** and use the same parameters to recover the secret.
+An attacker would still need:
+- The correct starting bit offset S
+- The correct mode C (`fixed`, `cycle`, or `increment`)
+- Knowledge of the payload header format (our magic bytes `STEGO1` + length fields)
+- A way to distinguish the embedded bits from natural image noise
 
-## Notes
-- For images, choose a larger carrier file if your message is large.
-- If the carrier is too small, the app will show an error.
-- In production, move the session secret into an environment variable.
+Because only selected bits are modified, the changes are similar to normal image compression noise. Without knowing S and C, the attacker would have to brute-force many possible combinations of starting positions, modes, and payload lengths. This makes recovery extremely difficult and computationally expensive.
+
+---
+
+### Features Implemented
+- User registration and login (authenticated uploads only)
+- Public gallery for viewing all posted stego images
+- Support for hiding text or any file inside an image carrier
+- Three modes: `fixed`, `cycle`, `increment`
+- Fully reversible extraction using the same S, L, C parameters
+- Deployed on Microsoft Azure (free tier)
+
+### Project successfully fulfills all requirements of the assignment.
