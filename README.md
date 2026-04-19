@@ -1,8 +1,8 @@
 # Steganography Site
 
-# Name:** David Akpunku
+# Name: David Akpunku
 # Student ID: 1002126466
-# Azure Live Site:** https://steganography-site-david-gceveae9f0dthkem.centralus-01.azurewebsites.net
+# Azure Live Site: https://steganography-site-david-gceveae9f0dthkem.centralus-01.azurewebsites.net
 
 ---
 
