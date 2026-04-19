@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="/">Home</a>
+            {% if user %}
+                <a href="/upload">Upload</a>
+                <a href="/extract">Extract</a>
+                <a href="/logout">Logout ({{ user }})</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </nav>
+
+        <h1>{{ post.title }}</h1>
+        <p><strong>Posted by:</strong> {{ post.created_by }}</p>
+        <p><strong>Description:</strong> {{ post.description }}</p>
+        <p><strong>Parameters:</strong> S={{ post.start_bit }}, L={{ post.interval_l }}, mode={{ post.mode }}</p>
+
+        <div class="card">
+            <img src="/media/{{ post.stego_filename }}" alt="Public stego image" class="preview-image">
+        </div>
+
+        <p>
+            <a class="button-link" href="/download/post/{{ post.id }}">Download public file</a>
+        </p>
+    </div>
+</body>
+</html>

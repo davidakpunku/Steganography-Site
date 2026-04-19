@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Public Steganography Gallery</h1>
+  <p>Anyone can browse posted files. Only authenticated users can create steganography uploads.</p>
+</section>
+<div class="grid">
+{% for post in posts %}
+  <article class="card">
+    <h3><a href="/post/{{ post.id }}">{{ post.title }}</a></h3>
+    <p>{{ post.description or "No description provided." }}</p>
+    <p><strong>Carrier:</strong> {{ post.carrier_original_name }}</p>
+    <p><strong>Parameters:</strong> S={{ post.start_bit }}, L={{ post.interval_l }}, mode={{ post.mode }}</p>
+    <p><strong>Posted by:</strong> {{ post.created_by }}</p>
+  </article>
+{% else %}
+  <p>No public posts yet.</p>
+{% endfor %}
+</div>
+{% endblock %}

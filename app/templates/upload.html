@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-card wide">
+  <h2>Create Stego Post</h2>
+  <p>Upload a carrier file, then provide either secret text or a secret file.</p>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  {% if success %}<p class="success">{{ success }}</p>{% endif %}
+  <form method="post" enctype="multipart/form-data">
+    <label>Post Title <input type="text" name="title" required></label>
+    <label>Description <textarea name="description"></textarea></label>
+    <label>Carrier File <input type="file" name="carrier_file" required></label>
+    <label>Secret Text <textarea name="message_text" placeholder="Optional if uploading a secret file"></textarea></label>
+    <label>Secret File <input type="file" name="secret_file"></label>
+    <div class="row">
+      <label>Starting Bit (S) <input type="number" name="start_bit" min="0" value="64" required></label>
+      <label>Interval (L) <input type="number" name="interval_l" min="1" value="8" required></label>
+      <label>Mode (C)
+        <select name="mode">
+          <option value="fixed">fixed</option>
+          <option value="cycle">cycle</option>
+          <option value="increment">increment</option>
+        </select>
+      </label>
+    </div>
+    <button type="submit">Embed and Publish</button>
+  </form>
+</div>
+{% endblock %}
