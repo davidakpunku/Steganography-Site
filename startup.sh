@@ -1,7 +1,8 @@
 #!/bin/bash
 gunicorn app.main:app \
-  --workers 2 \
+  --workers 1 \
   --worker-class uvicorn.workers.UvicornWorker \
   --bind 0.0.0.0:$PORT \
-  --timeout 600 \
+  --timeout 1200 \
+  --preload \
   --access-logfile -
